@@ -11,14 +11,7 @@ module.exports = {
   async index(req, res) {
     try {
       const users = await User.findAll({
-        attributes: [
-          'id',
-          'username',
-          'email',
-          'avatar',
-          'standard',
-          'created_at',
-        ],
+        attributes: ['id', 'username', 'email', 'avatar', 'created_at'],
       });
 
       return res.json(users);
@@ -145,7 +138,6 @@ module.exports = {
         email,
         password: await hash(password, await genSalt()),
         avatar,
-        standard,
       });
 
       const token = sign(

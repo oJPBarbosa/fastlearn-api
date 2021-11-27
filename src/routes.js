@@ -11,30 +11,48 @@ const UserController = require('./controllers/UserController');
 
 const routes = express.Router();
 
-routes.use(auth);
+routes.get(
+  '/communities/:community_id/posts/:id/comments',
+  auth,
+  CommentController.index
+);
+routes.get(
+  '/communities/:community_id/posts/:id/comments/:id',
+  auth,
+  CommentController.show
+);
+routes.post(
+  '/communities/:community_id/posts/:id/comments',
+  auth,
+  CommentController.store
+);
 
-routes.get('/communities/:community_id/posts/:id/comments', CommentController.index);
-routes.get('/communities/:community_id/posts/:id/comments/:id', CommentController.show);
-routes.post('/communities/:community_id/posts/:id/comments', CommentController.store);
-
-routes.get('/communities', CommunityController.index);
+routes.get('/communities', auth, CommunityController.index);
 routes.get('/communities/:id', CommunityController.show);
 routes.post('/communities', CommunityController.store);
 
-routes.get('/communities/:community_id/paths', PathController.index);
-routes.get('/communities/:community_id/paths/:path_id', PathController.show);
-routes.post('/communities/:community_id/paths', PathController.store);
+routes.get('/communities/:community_id/paths', auth, PathController.index);
+routes.get(
+  '/communities/:community_id/paths/:path_id',
+  auth,
+  PathController.show
+);
+routes.post('/communities/:community_id/paths', auth, PathController.store);
 
-routes.get('/communities/:community_id/posts', PostController.index);
-routes.get('/communities/:community_id/posts/:id', PostController.show);
-routes.post('/communities/:community_id/posts', PostController.store);
+routes.get('/communities/:community_id/posts', auth, PostController.index);
+routes.get('/communities/:community_id/posts/:id', auth, PostController.show);
+routes.post('/communities/:community_id/posts', auth, PostController.store);
 
-routes.get('/users/subscriptions', SubscriptionController.index);
-routes.get('/users/:user_id/subscriptions', SubscriptionController.show);
-routes.post('/users/:user_id/subscriptions', SubscriptionController.store);
+routes.get('/users/subscriptions', auth, SubscriptionController.index);
+routes.get('/users/:user_id/subscriptions', auth, SubscriptionController.show);
+routes.post(
+  '/users/:user_id/subscriptions',
+  auth,
+  SubscriptionController.store
+);
 
-routes.get('/users', UserController.index);
-routes.get('/users/:id', UserController.show);
+routes.get('/users', auth, UserController.index);
+routes.get('/users/:id', auth, UserController.show);
 routes.post('/users', UserController.store);
 
 module.exports = routes;
